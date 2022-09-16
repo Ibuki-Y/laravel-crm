@@ -8,15 +8,13 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
-class PasswordResetLinkController extends Controller
-{
+class PasswordResetLinkController extends Controller {
     /**
      * Display the password reset link request view.
      *
      * @return \Inertia\Response
      */
-    public function create()
-    {
+    public function create() {
         return Inertia::render('Auth/ForgotPassword', [
             'status' => session('status'),
         ]);
@@ -30,8 +28,7 @@ class PasswordResetLinkController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'email' => 'required|email',
         ]);
