@@ -10,4 +10,6 @@ import { Link } from '@inertiajs/inertia-vue3'
   <br />
   <Link :href="route('inertia.index')">v-bind:Linkタグ</Link>
   <br />
+  <Link :href="route('inertia.show', { id: 1 })">ルートパラメータLinkタグ</Link>
+  <br />
 </template>
