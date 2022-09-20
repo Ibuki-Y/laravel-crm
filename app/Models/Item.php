@@ -7,4 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'name',
+        'memo',
+        'price',
+        'is_selling',
+    ];
 }
