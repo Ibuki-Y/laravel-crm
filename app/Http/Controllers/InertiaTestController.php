@@ -38,6 +38,7 @@ class InertiaTestController extends Controller {
         return to_route('inertia.index')
             ->with([
                 'message' => '登録しました!',
+                'status' => 'success',
             ]);
     }
 
@@ -48,6 +49,7 @@ class InertiaTestController extends Controller {
         return to_route('inertia.index')
             ->with([
                 'message' => '削除しました!',
+                'status' => 'warning',
             ]);
     }
 }
