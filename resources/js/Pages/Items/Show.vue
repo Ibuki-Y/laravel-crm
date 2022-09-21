@@ -1,4 +1,5 @@
 <script setup>
+import { Inertia } from '@inertiajs/inertia';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { nl2br } from '@/common';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -6,6 +7,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 defineProps({
   item: Object,
 });
+
+const deleteItem = (id) => {
+  Inertia.delete(route('items.destroy', { item: id }), {
+    onBefore: () => confirm('本当に削除しますか?'),
+  });
+};
 </script>
 
 <template>
@@ -77,12 +84,20 @@ defineProps({
                         戻る
                       </Link>
                       <Link
-                        class="flex mx-auto text-white bg-indigo-800 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                        class="flex mx-auto text-white bg-indigo-700 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-900 rounded text-lg"
                         as="button"
                         :href="route('items.edit', { item: item.id })"
                       >
                         編集
                       </Link>
+                    </div>
+                    <div class="p-2 w-full mt-8">
+                      <button
+                        class="flex mx-auto text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg"
+                        @click="deleteItem(item.id)"
+                      >
+                        削除
+                      </button>
                     </div>
                   </div>
                 </div>
