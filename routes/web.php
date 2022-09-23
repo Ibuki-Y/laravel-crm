@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InertiaTestController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,9 @@ Route::delete('/inertia/{id}', [InertiaTestController::class, 'delete'])->name('
 
 /* Item */
 Route::resource('items', ItemController::class)->middleware(['auth', 'verified']);
+
+/* Customer */
+Route::resource('customers', CustomerController::class)->middleware(['auth', 'verified']);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
