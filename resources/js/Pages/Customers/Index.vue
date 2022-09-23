@@ -2,9 +2,10 @@
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import FlashMessageVue from '@/Components/FlashMessage.vue';
+import PaginationVue from '@/Components/Pagination.vue';
 
 defineProps({
-  customers: Array,
+  customers: Object,
 });
 </script>
 
@@ -53,7 +54,7 @@ defineProps({
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="customer in customers" :key="customer.id">
+                      <tr v-for="customer in customers.data" :key="customer.id">
                         <td class="px-4 py-3">
                           {{ customer.id }}
                         </td>
@@ -65,6 +66,7 @@ defineProps({
                   </table>
                 </div>
               </div>
+              <PaginationVue class="mt-6 flex justify-center" :links="customers.links"></PaginationVue>
             </section>
           </div>
         </div>
