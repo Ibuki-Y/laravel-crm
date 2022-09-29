@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
+use App\Models\Customer;
+use App\Models\Item;
 use App\Models\Purchase;
+use Inertia\Inertia;
 
-class PurchaseController extends Controller
-{
+class PurchaseController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         //
     }
 
@@ -23,9 +24,14 @@ class PurchaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $customers = Customer::select('id', 'name', 'kana')->get();
+        $items = Item::select('id', 'name', 'price')->where('is_selling', true)->get();
+
+        return Inertia::render('Purchases/Create', [
+            'customers' => $customers,
+            'items' => $items,
+        ]);
     }
 
     /**
@@ -34,8 +40,7 @@ class PurchaseController extends Controller
      * @param  \App\Http\Requests\StorePurchaseRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePurchaseRequest $request)
-    {
+    public function store(StorePurchaseRequest $request) {
         //
     }
 
@@ -45,8 +50,7 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function show(Purchase $purchase)
-    {
+    public function show(Purchase $purchase) {
         //
     }
 
@@ -56,8 +60,7 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function edit(Purchase $purchase)
-    {
+    public function edit(Purchase $purchase) {
         //
     }
 
@@ -68,8 +71,7 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePurchaseRequest $request, Purchase $purchase)
-    {
+    public function update(UpdatePurchaseRequest $request, Purchase $purchase) {
         //
     }
 
@@ -79,8 +81,7 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Purchase $purchase)
-    {
+    public function destroy(Purchase $purchase) {
         //
     }
 }
