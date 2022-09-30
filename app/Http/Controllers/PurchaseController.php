@@ -41,7 +41,6 @@ class PurchaseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(StorePurchaseRequest $request) {
-        //
     }
 
     /**
