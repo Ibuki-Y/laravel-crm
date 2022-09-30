@@ -59,7 +59,7 @@ class PurchaseController extends Controller {
             DB::commit();
 
             return to_route('dashboard')->with([
-                'message' => '購入しました!',
+                'message' => '登録しました!',
                 'status' => 'success',
             ]);
         } catch (\Exception $e) {
