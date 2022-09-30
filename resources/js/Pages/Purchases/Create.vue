@@ -85,13 +85,13 @@ onMounted(() => {
         <tr v-for="item in itemList">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.price }}</td>
+          <td>{{ item.price.toLocaleString() }}</td>
           <td>
             <select name="quantity" v-model="item.quantity">
               <option v-for="q in quantity" :value="q">{{ q }}</option>
             </select>
           </td>
-          <td>{{ item.price * item.quantity }}</td>
+          <td>{{ (item.price * item.quantity).toLocaleString() }}</td>
         </tr>
       </tbody>
     </table>
