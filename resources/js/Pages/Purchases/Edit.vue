@@ -14,6 +14,7 @@ const props = defineProps({
 const itemList = ref([]);
 
 const form = reactive({
+  id: props.order[0].id,
   date: dayjs(props.order[0].created_at).format('YYYY-MM-DD'),
   customer_id: props.order[0].customer_id,
   status: props.order[0].status,
@@ -31,7 +32,7 @@ const totalPrice = computed(() => {
   return total;
 });
 
-const storePurchase = () => {
+const updatePurchase = (id) => {
   itemList.value.forEach((item) => {
     if (item.quantity > 0) {
       form.items.push({
@@ -41,7 +42,7 @@ const storePurchase = () => {
     }
   });
 
-  Inertia.post(route('purchases.store', form));
+  Inertia.put(route('purchases.update', { purchase: id }), form);
 };
 
 onMounted(() => {
@@ -70,7 +71,7 @@ onMounted(() => {
           <div class="p-6 bg-white border-b border-gray-200">
             <ValidationErrorsVue class="mb-4" />
             <section class="text-gray-600 body-font relative">
-              <form @submit.prevent="storePurchase">
+              <form @submit.prevent="updatePurchase(form.id)">
                 <div class="container px-5 py-8 mx-auto">
                   <div class="lg:w-1/2 md:w-2/3 mx-auto">
                     <div class="flex flex-wrap -m-2">
@@ -163,9 +164,23 @@ onMounted(() => {
                         <div class="relative">
                           <label for="status" class="leading-7 text-sm text-gray-600">ステータス</label>
                           <div>
-                            <input disabled v-model="form.status" type="radio" id="status" name="status" value="1" class="mr-1" />
+                            <input
+                              v-model="form.status"
+                              type="radio"
+                              id="status"
+                              name="status"
+                              value="1"
+                              class="mr-1"
+                            />
                             <span class="mr-4">未キャンセル</span>
-                            <input disabled v-model="form.status" type="radio" id="status" name="status" value="0" class="mr-1" />
+                            <input
+                              v-model="form.status"
+                              type="radio"
+                              id="status"
+                              name="status"
+                              value="0"
+                              class="mr-1"
+                            />
                             <span>キャンセル</span>
                           </div>
                         </div>
@@ -174,7 +189,7 @@ onMounted(() => {
                         <button
                           class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
                         >
-                          登録
+                          更新
                         </button>
                       </div>
                     </div>

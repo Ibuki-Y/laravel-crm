@@ -42,7 +42,7 @@ const storePurchase = () => {
     }
   });
 
-  Inertia.post(route('purchases.store', form));
+  Inertia.post(route('purchases.store'), form);
 };
 
 const setCustomerId = (id) => {
