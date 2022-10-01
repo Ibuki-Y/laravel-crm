@@ -5,9 +5,10 @@ import { reactive, onMounted, ref, computed } from 'vue';
 import { getToday } from '@/common';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ValidationErrorsVue from '@/Components/ValidationErrors.vue';
+import MicroModalVue from '@/Components/MicroModal.vue';
 
 const props = defineProps({
-  customers: Array,
+  // customers: Array,
   items: Array,
 });
 
@@ -42,6 +43,10 @@ const storePurchase = () => {
   });
 
   Inertia.post(route('purchases.store', form));
+};
+
+const setCustomerId = (id) => {
+  form.customer_id = id;
 };
 
 onMounted(() => {
@@ -91,7 +96,8 @@ onMounted(() => {
                       <div class="p-2 w-full">
                         <div class="relative">
                           <label for="customer" class="leading-7 text-sm text-gray-600">会員名</label>
-                          <select
+                          <MicroModalVue @update:customer-id="setCustomerId" />
+                          <!-- <select
                             name="customer"
                             v-model="form.customer_id"
                             class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
@@ -99,10 +105,11 @@ onMounted(() => {
                             <option v-for="customer in customers" :value="customer.id" :key="customer.id">
                               {{ customer.id }}: {{ customer.name }}
                             </option>
-                          </select>
+                          </select> -->
                         </div>
                       </div>
-                      <div class="w-full mt-8 mx-auto overflow-auto">
+                      <div class="w-full mt-4 mx-auto overflow-auto">
+                        <label for="item" class="leading-7 text-sm text-gray-600">商品・サービス</label>
                         <table class="table-auto w-full text-left whitespace-no-wrap">
                           <thead>
                             <tr>
