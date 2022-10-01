@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Item;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,13 @@ class PurchaseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //
+        $orders = Order::groupBy('id')
+            ->selectRaw('id, sum(subtotal) as total, customer_name, status, created_at')
+            ->paginate(50);
+
+        return Inertia::render('Purchases/Index', [
+            'orders' => $orders,
+        ]);
     }
 
     /**
@@ -74,7 +81,17 @@ class PurchaseController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Purchase $purchase) {
-        //
+        $items = Order::where('id', $purchase->id)->get();
+
+        $order = Order::groupBy('id')
+            ->where('id', $purchase->id)
+            ->selectRaw('id, sum(subtotal) as total, customer_name, status, created_at')
+            ->get();
+
+        return Inertia::render('Purchases/Show', [
+            'items' => $items,
+            'order' => $order,
+        ]);
     }
 
     /**
