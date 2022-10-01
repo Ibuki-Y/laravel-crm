@@ -3,6 +3,7 @@
 use App\Http\Controllers\InertiaTestController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,9 @@ Route::resource('items', ItemController::class)->middleware(['auth', 'verified']
 
 /* Customer */
 Route::resource('customers', CustomerController::class)->middleware(['auth', 'verified']);
+
+/* Purchase */
+Route::resource('purchases', PurchaseController::class)->middleware(['auth', 'verified']);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

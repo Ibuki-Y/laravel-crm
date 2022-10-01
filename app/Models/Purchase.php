@@ -2,25 +2,28 @@
 
 namespace App\Models;
 
-use App\Models\Purchase;
+use App\Models\Customer;
+use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model {
+class Purchase extends Model {
     use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'name',
-        'memo',
-        'price',
-        'is_selling',
+        'customer_id',
+        'status',
     ];
 
-    public function purchases() {
-        return $this->belongsToMany(Purchase::class)
+    public function customer() {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function items() {
+        return $this->belongsToMany(Item::class)
             ->withPivot('quantity');
     }
 }
