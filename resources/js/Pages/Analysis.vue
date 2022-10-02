@@ -1,7 +1,19 @@
 <script setup>
+import { reactive, onMounted } from 'vue';
 import { Head } from '@inertiajs/inertia-vue3';
+import { getToday } from '@/common';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import FlashMessageVue from '@/Components/FlashMessage.vue';
+
+const form = reactive({
+  startDate: null,
+  endDate: null,
+});
+
+onMounted(() => {
+  form.startDate = getToday();
+  form.endDate = getToday();
+});
 </script>
 
 <template>
@@ -16,7 +28,19 @@ import FlashMessageVue from '@/Components/FlashMessage.vue';
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <FlashMessageVue />
-          <div class="p-6 bg-white border-b border-gray-200">You're logged in!</div>
+          <div class="p-6 bg-white border-b border-gray-200">
+            <form>
+              <span>From: </span>
+              <input type="date" name="startDate" v-model="form.startDate" />
+              <span>To: </span>
+              <input type="date" name="endDate" v-model="form.endDate" />
+              <button
+                class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+              >
+                分析
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
