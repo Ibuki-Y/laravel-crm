@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, onMounted } from 'vue';
 import { Head } from '@inertiajs/inertia-vue3';
+import axios from 'axios';
 import { getToday } from '@/common';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import FlashMessageVue from '@/Components/FlashMessage.vue';
@@ -8,7 +9,27 @@ import FlashMessageVue from '@/Components/FlashMessage.vue';
 const form = reactive({
   startDate: null,
   endDate: null,
+  type: 'perDay',
 });
+
+const getData = async () => {
+  try {
+    await axios
+      .get('/api/analysis/', {
+        params: {
+          startDate: form.startDate,
+          endDate: form.endDate,
+          type: form.type,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        // data.value=res.data;
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
+};
 
 onMounted(() => {
   form.startDate = getToday();
@@ -29,7 +50,7 @@ onMounted(() => {
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <FlashMessageVue />
           <div class="p-6 bg-white border-b border-gray-200">
-            <form>
+            <form @submit.prevent="getData">
               <span>From: </span>
               <input type="date" name="startDate" v-model="form.startDate" />
               <span>To: </span>
