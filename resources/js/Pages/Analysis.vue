@@ -27,7 +27,8 @@ const getData = async () => {
       })
       .then((res) => {
         data.data = res.data.data;
-        // console.log(res.data.data);
+        data.labels = res.data.labels;
+        data.totals = res.data.totals;
       });
   } catch (e) {
     console.log(e.message);
@@ -64,7 +65,9 @@ onMounted(() => {
                 分析
               </button>
             </form>
-            <ChartVue />
+            <div v-show="data.data">
+              <ChartVue :data="data" />
+            </div>
             <div v-show="data.data" class="mt-8 lg:w-2/3 w-full mx-auto overflow-auto">
               <table class="table-auto w-full text-left whitespace-no-wrap">
                 <thead>
