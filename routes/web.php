@@ -31,7 +31,9 @@ Route::resource('customers', CustomerController::class)->middleware(['auth', 've
 Route::resource('purchases', PurchaseController::class)->middleware(['auth', 'verified']);
 
 /* Analysis */
-Route::get('analysis', [AnalysisController::class, 'index'])->name('analysis');
+Route::get('analysis', [AnalysisController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('analysis');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

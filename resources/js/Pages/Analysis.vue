@@ -5,12 +5,15 @@ import axios from 'axios';
 import { getToday } from '@/common';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import FlashMessageVue from '@/Components/FlashMessage.vue';
+import ChartVue from '@/Components/Chart.vue';
 
 const form = reactive({
   startDate: null,
   endDate: null,
   type: 'perDay',
 });
+
+const data = reactive({});
 
 const getData = async () => {
   try {
@@ -23,8 +26,8 @@ const getData = async () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
-        // data.value=res.data;
+        data.data = res.data.data;
+        // console.log(res.data.data);
       });
   } catch (e) {
     console.log(e.message);
@@ -61,6 +64,29 @@ onMounted(() => {
                 分析
               </button>
             </form>
+            <ChartVue />
+            <div v-show="data.data" class="mt-8 lg:w-2/3 w-full mx-auto overflow-auto">
+              <table class="table-auto w-full text-left whitespace-no-wrap">
+                <thead>
+                  <tr>
+                    <th
+                      class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl"
+                    >
+                      年月日
+                    </th>
+                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                      金額
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in data.data" :key="item.date">
+                    <td class="px-4 py-3">{{ item.date }}</td>
+                    <td class="px-4 py-3">{{ Number(item.total).toLocaleString() }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
