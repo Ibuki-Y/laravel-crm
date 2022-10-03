@@ -23,15 +23,29 @@ class AnalysisController extends Controller {
         //     ->orderBy('created_at')
         //     ->paginate(50);
 
-        $subQuery = Order::betweenDate($startDate, $endDate)
-            ->where('status', true)
-            ->groupBy('id')
-            ->selectRaw('id, sum(subtotal) as totalPerPurchase, DATE_FORMAT(created_at, "%Y%m%d") as date');
+        // $subQuery = Order::betweenDate($startDate, $endDate)
+        //     ->where('status', true)
+        //     ->groupBy('id')
+        //     ->selectRaw('id, sum(subtotal) as totalPerPurchase, DATE_FORMAT(created_at, "%Y%m%d") as date');
+        // $data = DB::table($subQuery)
+        //     ->groupBy('date')
+        //     ->selectRaw('date, sum(totalPerPurchase) as total')
+        //     ->get();
 
-        $data = DB::table($subQuery)
-            ->groupBy('date')
-            ->selectRaw('date, sum(totalPerPurchase) as total')
+        $subQuery = Order::betweenDate($startDate, $endDate)
+            ->groupBy('id')
+            ->selectRaw('id, customer_id, customer_name, sum(subtotal) as totalPerPurchase');
+
+        $subQuery = DB::table($subQuery)
+            ->groupBy('customer_id')
+            ->selectRaw('customer_id, customer_name, sum(totalPerPurchase) as total')
+            ->orderBy('total', 'desc');
+
+        DB::statement('set @row_num = 0;');
+        $subQuery = DB::table($subQuery)
+            ->selectRaw('@row_num := @row_num + 1 as row_num, customer_id, customer_name, total')
             ->get();
+        dd($subQuery);
 
         return Inertia::render('Analysis');
     }
