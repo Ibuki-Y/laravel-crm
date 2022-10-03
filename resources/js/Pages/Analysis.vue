@@ -55,10 +55,18 @@ onMounted(() => {
           <FlashMessageVue />
           <div class="p-6 bg-white border-b border-gray-200">
             <form @submit.prevent="getData">
-              <span>From: </span>
-              <input type="date" name="startDate" v-model="form.startDate" />
-              <span>To: </span>
-              <input type="date" name="endDate" v-model="form.endDate" />
+              <div class="mb-4">
+                <span>分析方法</span>
+                <input type="radio" v-model="form.type" value="perDay" checked /><span class="mr-2">日別</span>
+                <input type="radio" v-model="form.type" value="perMonth" /><span class="mr-2">月別</span>
+                <input type="radio" v-model="form.type" value="perYear" /><span class="mr-2">年別</span>
+              </div>
+              <div class="mb-4">
+                <span>From: </span>
+                <input type="date" name="startDate" v-model="form.startDate" class="mr-4" />
+                <span>To: </span>
+                <input type="date" name="endDate" v-model="form.endDate" />
+              </div>
               <button
                 class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
               >
