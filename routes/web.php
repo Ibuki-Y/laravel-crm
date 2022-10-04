@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\InertiaTestController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ItemController;
@@ -28,6 +29,11 @@ Route::resource('customers', CustomerController::class)->middleware(['auth', 've
 
 /* Purchase */
 Route::resource('purchases', PurchaseController::class)->middleware(['auth', 'verified']);
+
+/* Analysis */
+Route::get('analysis', [AnalysisController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('analysis');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
