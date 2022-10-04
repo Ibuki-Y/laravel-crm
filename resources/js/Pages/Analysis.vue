@@ -6,6 +6,7 @@ import { getToday } from '@/common';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import FlashMessageVue from '@/Components/FlashMessage.vue';
 import ChartVue from '@/Components/Chart.vue';
+import ResultTableVue from '@/Components/ResultTable.vue';
 
 const form = reactive({
   startDate: null,
@@ -29,6 +30,7 @@ const getData = async () => {
         data.data = res.data.data;
         data.labels = res.data.labels;
         data.totals = res.data.totals;
+        data.type = res.data.type;
       });
   } catch (e) {
     console.log(e.message);
@@ -60,6 +62,7 @@ onMounted(() => {
                 <input type="radio" v-model="form.type" value="perDay" checked /><span class="mr-2">日別</span>
                 <input type="radio" v-model="form.type" value="perMonth" /><span class="mr-2">月別</span>
                 <input type="radio" v-model="form.type" value="perYear" /><span class="mr-2">年別</span>
+                <input type="radio" v-model="form.type" value="decile" /><span class="mr-2">デシル分析</span>
               </div>
               <div class="mb-4">
                 <span>From: </span>
@@ -75,28 +78,7 @@ onMounted(() => {
             </form>
             <div v-show="data.data">
               <ChartVue :data="data" />
-            </div>
-            <div v-show="data.data" class="mt-8 lg:w-2/3 w-full mx-auto overflow-auto">
-              <table class="table-auto w-full text-left whitespace-no-wrap">
-                <thead>
-                  <tr>
-                    <th
-                      class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl"
-                    >
-                      年月日
-                    </th>
-                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                      金額
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in data.data" :key="item.date">
-                    <td class="px-4 py-3">{{ item.date }}</td>
-                    <td class="px-4 py-3">{{ Number(item.total).toLocaleString() }}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <ResultTableVue :data="data" />
             </div>
           </div>
         </div>
